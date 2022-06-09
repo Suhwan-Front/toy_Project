@@ -4,12 +4,16 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { ChakraProvider } from "@chakra-ui/react";
 import { RecoilRoot } from "recoil";
+import store from "./actions/store";
+import { Provider } from "react-redux";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <ChakraProvider>
     <RecoilRoot>
-      <App />
+      <Provider store={store}>
+        <App />
+      </Provider>
     </RecoilRoot>
   </ChakraProvider>
 );
