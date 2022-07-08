@@ -9,16 +9,25 @@ import {
   FormHelperText,
   FormErrorMessage,
 } from '@chakra-ui/react';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
+import {useDispatch} from 'react-redux/es/exports';
+import {increment} from '../../actions/counterSlice';
+import StyledLink from '../../presenter/Button';
 
 const Login = () => {
   const [Id, setID] = useState('');
   const [Pw, setPw] = useState('');
   const [idIsError, setIdIsError] = useState('');
   const [pwIsError, setPwIsError] = useState('noError');
+  const dispatch = useDispatch();
+  useEffect(() => {
+    localStorage.setItem('loginItem', true);
+  }, []);
   const handleButton = () => {
     setIdIsError(Id);
     setPwIsError(Pw);
+    dispatch(increment());
+    localStorage.setItem('loginItem', false);
   };
 
   return (
@@ -66,9 +75,11 @@ const Login = () => {
               <FormErrorMessage>비밀번호를 입력해주세요</FormErrorMessage>
             )}
           </FormLabel>
-          <Button colorScheme="blue" onClick={() => handleButton()}>
-            로그인
-          </Button>
+          <StyledLink to="/">
+            <Button colorScheme="blue" onClick={() => handleButton()}>
+              로그인
+            </Button>
+          </StyledLink>
           <Stack spacing={5} direction={'row'} margin={'auto'}>
             <Checkbox defaultChecked>로그인 유지</Checkbox>
             <Checkbox defaultChecked>아이디 저장</Checkbox>

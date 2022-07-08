@@ -1,37 +1,47 @@
 import {Button, Stack} from '@chakra-ui/react';
 import {EmailIcon, ArrowForwardIcon} from '@chakra-ui/icons';
 import {Link} from 'react-router-dom';
-import {useEffect, useState} from 'react';
+import {useEffect} from 'react';
 
 function Main() {
-  const [loginSet, setLoginSet] = useState(false);
   useEffect(() => {
-    setLoginSet(localStorage.getItem('loginItem'));
-    console.log(loginSet);
+    console.log(localStorage.getItem('loginItem'));
   }, []);
+  const logOut = () => {
+    localStorage.clear();
+    window.location.reload();
+  };
   return (
     <>
       <Stack direction="row" spacing={4}>
-        {localStorage.getItem('loginItem') === true ? (
-          <Button colorScheme="teal" variant="solid">
-            <Link to="/Login" className="main_login_btn">
+        {localStorage.getItem('loginItem') === 'false' ? (
+          <Link to="/" className="main_login_btn" onClick={logOut}>
+            <Button colorScheme="teal" variant="solid">
               로그아웃
-            </Link>
-          </Button>
+            </Button>
+          </Link>
         ) : (
-          <Button leftIcon={<EmailIcon />} colorScheme="teal" variant="solid">
+          <>
             <Link to="/Login" className="main_login_btn">
-              로그인
+              <Button
+                leftIcon={<EmailIcon />}
+                colorScheme="teal"
+                variant="solid"
+              >
+                로그인
+              </Button>
             </Link>
-          </Button>
+            <Link to="Signup" className="main_signup_btn">
+              <Button
+                rightIcon={<ArrowForwardIcon />}
+                colorScheme="teal"
+                variant="outline"
+              >
+                회원가입
+              </Button>
+            </Link>
+          </>
         )}
-        <Button
-          rightIcon={<ArrowForwardIcon />}
-          colorScheme="teal"
-          variant="outline"
-        >
-          회원가입
-        </Button>
       </Stack>
     </>
   );
